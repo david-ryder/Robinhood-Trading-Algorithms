@@ -1,3 +1,4 @@
+import readline
 import time
 import datetime
 import robin_stocks.robinhood as r
@@ -7,13 +8,20 @@ stock = "None"
 shares = 0
 ### ---------------- ###
 
+# Get setup information from file
+with open('setup.txt') as f:
+    lines = f.readlines()
+    stock = lines[1].strip()
+    shares = lines[3].strip()
+
+# Login to robinhood
 login = r.login("drw12512@gmail.com",
                 "Knightro@123")
 
 high = None
 current = None
 low = None
-stopTime = datetime.time(15, 55, 0)
+stopTime = datetime.time(15, 55, 0) # 5 minutes before market close
 
 # Buys a given number of a in a b, sets low limit to sell
 def setup():
@@ -23,17 +31,18 @@ def setup():
     global low
 
     prices = r.get_latest_price(stock)
-    high = prices[0]
-    current = high
+
+    current = prices[0]
+    high = current
     low = current * 0.999
 
-    # Buy a b
+    # Buy the specified stock
     buy()
 
     # Initiate stop loss order
     setLow(low)
 
-# Buys a number of whole a of a b
+# Buys a number of whole stock
 def buy():
 
     print("Buying {} share(s) of {} at {}".format(shares, stock, current))
@@ -73,14 +82,18 @@ while True:
 
     # Get current price
     prices = r.get_latest_price(stock)
+
     current = prices[0]
 
     # Increase in value
     if (high < current):
+        high = current
         setLow((low + high) / 2)
 
-    # Sell before market close
+    # Sell everything before market close
     if (currentTime == stopTime):
         sell(shares, stock)
         break
+
+    # Wait 1 second
     time.sleep(1)
