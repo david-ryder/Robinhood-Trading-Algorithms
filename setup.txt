@@ -1,4 +1,4 @@
 Stocksymbol:
-BBBY
+GCT
 Shares:
-4
+1
