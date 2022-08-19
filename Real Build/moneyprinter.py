@@ -15,8 +15,8 @@ with open('setup.txt') as f:
 print("Setting up with {} shares of {}".format(shares, stock))
 
 # Log into robinhood
-login = r.login("drw12512@gmail.com",
-                "Knightro@123")
+login = r.login("************************@gmail.com",
+                "**********************************")
 
 # Store global variables
 high = None

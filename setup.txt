@@ -1,4 +1,0 @@
-Stocksymbol:
-GCT
-Shares:
-1
